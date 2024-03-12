@@ -11,7 +11,7 @@ variables:
   workingDirectory: '$(System.DefaultWorkingDirectory)/ProjectEstimaterBackend'
 
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
 
 steps:
   - task: NuGetAuthenticate@0
