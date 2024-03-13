@@ -1,0 +1,66 @@
+﻿using Microsoft.Azure.Cosmos;
+using ProjectEstimaterBackend.Models.Data;
+
+namespace ProjectEstimaterBackend.Services
+{
+    public class ParticipantDataService : IDataService<Participant>
+    {
+        private readonly CosmosClient _cosmosClient;
+        private readonly Database _database;
+        private readonly Container _ParticipantsContainer;
+
+        public ParticipantDataService()
+        {
+            var connectionString = Environment.GetEnvironmentVariable("CosmosDBConnectionString");
+            _cosmosClient = new CosmosClient(connectionString);
+            _database = _cosmosClient.GetDatabase("ProjectEstimater");
+
+            _ParticipantsContainer = _database.GetContainer("Participants");
+        }
+
+        public Participant Add(Participant entity)
+        {
+            return AddAsync(entity).GetAwaiter().GetResult();
+        }
+        public async Task<Participant> AddAsync(Participant entity)
+        {
+            if (string.IsNullOrWhiteSpace(entity.id)) throw new ArgumentException("Id not set");
+            if (string.IsNullOrWhiteSpace(entity.name)) throw new ArgumentException("Name not set");
+            if (string.IsNullOrWhiteSpace(entity.votingId)) throw new ArgumentException("VotingId not set");
+            if (entity.vote == null) throw new ArgumentException("Vote not set");
+
+            return await _ParticipantsContainer.CreateItemAsync(entity, new PartitionKey(entity.id));
+        }
+
+        public void Delete(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Participant> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Participant GetById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Participant Update(Participant entity, string id)
+        {
+            return UpdateAsync(entity,id).GetAwaiter().GetResult();
+        }
+        public async Task<Participant> UpdateAsync(Participant entity, string id)
+        {
+            if (string.IsNullOrWhiteSpace(id)) throw new ArgumentException("Id not set");
+            if (entity.vote == null) throw new ArgumentException("Vote not set");
+
+            return await _ParticipantsContainer.PatchItemAsync<Participant>(
+                id: id,
+                partitionKey: new PartitionKey(id),
+                patchOperations: new[] { PatchOperation.Replace("/vote", entity.vote) }
+                );
+        }
+    }
+}
