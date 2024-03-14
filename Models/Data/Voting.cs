@@ -8,5 +8,6 @@ namespace ProjectEstimaterBackend.Models.Data
         public required string date { get; set; }
         public required decimal result { get; set; }
         public required bool isActive { get; set; }
+        public required string creator { get; set; }
     }
 }

@@ -9,6 +9,8 @@ namespace ProjectEstimaterBackend.Models.ViewModel.Voting
         public required string date { get; set; }
         public required decimal result { get; set; }
         public required bool isActive { get; set; }
+        public required string creator { get; set; }
+
         public required IList<ParticipantViewModel> participants { get; set; }
     }
 }

@@ -13,7 +13,8 @@ namespace ProjectEstimaterBackend.Profiles
                 .ForMember(x => x.title, y => y.MapFrom(z => z.title))
                 .ForMember(x => x.date, y => y.MapFrom(z => z.date))
                 .ForMember(x => x.result, y => y.MapFrom(z => z.result))
-                .ForMember(x => x.isActive, y => y.MapFrom(z => z.isActive));
+                .ForMember(x => x.isActive, y => y.MapFrom(z => z.isActive))
+                .ForMember(x => x.creator, y => y.MapFrom(z => z.creator));
         }
     }
 }
