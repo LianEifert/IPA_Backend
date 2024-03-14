@@ -14,12 +14,12 @@ namespace ProjectEstimaterBackend.Functions
 {
     public class GetVoting
     {
-        private readonly IDataService<Voting> _votingService;
+        private readonly IVotingDataService _votingService;
         private readonly IVotingParticipantService _votingParticipantService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public GetVoting(ILoggerFactory loggerFactory, IDataService<Voting> votingService, IVotingParticipantService votingParticipantService, IMapper mapper)
+        public GetVoting(ILoggerFactory loggerFactory, IVotingDataService votingService, IVotingParticipantService votingParticipantService, IMapper mapper)
         {
             _votingService = votingService;
             _votingParticipantService = votingParticipantService;
@@ -51,9 +51,6 @@ namespace ProjectEstimaterBackend.Functions
                 _logger.LogError($"Cosmos DB error: {ex.Message}");
                 return req.CreateResponse(HttpStatusCode.InternalServerError);
             }
-
-        
-
         }
     }
 }

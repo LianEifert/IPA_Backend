@@ -1,13 +1,10 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ProjectEstimaterBackend.Models.Data;
-using ProjectEstimaterBackend.Models.ViewModel.Participant;
 using ProjectEstimaterBackend.Models.ViewModel.Voting;
 using ProjectEstimaterBackend.Services;
 using System.Net;

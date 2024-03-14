@@ -28,20 +28,9 @@ namespace ProjectEstimaterBackend.Services
             if (string.IsNullOrWhiteSpace(entity.id)) throw new ArgumentException("Id not set");
             if (string.IsNullOrWhiteSpace(entity.name)) throw new ArgumentException("Name not set");
             if (string.IsNullOrWhiteSpace(entity.votingId)) throw new ArgumentException("VotingId not set");
-            if (entity.vote == null) throw new ArgumentException("Vote not set");
 
             //Create new Participant
             return await _ParticipantsContainer.CreateItemAsync(entity, new PartitionKey(entity.id));
-        }
-
-        public IList<Participant> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Participant GetById(string id)
-        {
-            throw new NotImplementedException();
         }
 
         public Participant Update(Participant entity, string id)
@@ -52,7 +41,6 @@ namespace ProjectEstimaterBackend.Services
         {
             //Check if null
             if (string.IsNullOrWhiteSpace(id)) throw new ArgumentException("Id not set");
-            if (entity.vote == null) throw new ArgumentException("Vote not set");
 
             //Only update the vote property
             return await _ParticipantsContainer.PatchItemAsync<Participant>(

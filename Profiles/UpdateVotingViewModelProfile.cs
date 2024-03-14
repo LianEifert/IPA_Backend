@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ProjectEstimaterBackend.Models.Data;
-using ProjectEstimaterBackend.Models.ViewModel.Participant;
 using ProjectEstimaterBackend.Models.ViewModel.Voting;
 
 namespace ProjectEstimaterBackend.Profiles

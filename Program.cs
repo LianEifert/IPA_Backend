@@ -29,6 +29,7 @@ var host = new HostBuilder()
 
         services.AddSingleton<IDataService<Participant>, ParticipantDataService>();
         services.AddSingleton<IDataService<Voting>, VotingDataService>();
+        services.AddSingleton<IVotingDataService, VotingDataService>();
         services.AddSingleton<IVotingParticipantService, VotingDataService>();
     })
     .Build();

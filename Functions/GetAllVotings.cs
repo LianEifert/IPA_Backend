@@ -15,15 +15,13 @@ namespace ProjectEstimaterBackend.Functions
 {
     public class GetAllVotings
     {
-        private readonly IDataService<Voting> _votingService;
-        private readonly IVotingParticipantService _votingParticipantService;
+        private readonly IVotingDataService _votingService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public GetAllVotings(ILoggerFactory loggerFactory, IDataService<Voting> votingService, IVotingParticipantService votingParticipantService, IMapper mapper)
+        public GetAllVotings(ILoggerFactory loggerFactory, IVotingDataService votingService, IMapper mapper)
         {
             _votingService = votingService;
-            _votingParticipantService = votingParticipantService;
             _logger = loggerFactory.CreateLogger<GetAllVotings>();
             _mapper = mapper;
         }

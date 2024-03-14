@@ -1,12 +1,10 @@
 ﻿using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos.Serialization.HybridRow.Schemas;
 using ProjectEstimaterBackend.Models.Data;
-using static Grpc.Core.Metadata;
 using PartitionKey = Microsoft.Azure.Cosmos.PartitionKey;
 
 namespace ProjectEstimaterBackend.Services
 {
-    public class VotingDataService : IDataService<Voting>, IVotingParticipantService
+    public class VotingDataService : IDataService<Voting>, IVotingParticipantService, IVotingDataService
     {
         private readonly CosmosClient _cosmosClient;
         private readonly Database _database;
@@ -33,8 +31,6 @@ namespace ProjectEstimaterBackend.Services
             if (string.IsNullOrWhiteSpace(entity.id)) throw new ArgumentException("Id not set");
             if (string.IsNullOrWhiteSpace(entity.date)) throw new ArgumentException("date not set");
             if (string.IsNullOrWhiteSpace(entity.title)) throw new ArgumentException("title not set");
-            if (entity.isActive == null) throw new ArgumentException("isActive not set");
-            if (entity.result == null) throw new ArgumentException("Number not set");
 
             //Create new Voting
             return await _VotingsContainer.CreateItemAsync(entity, new PartitionKey(entity.id));
@@ -99,8 +95,6 @@ namespace ProjectEstimaterBackend.Services
         {
             //Check if null
             if (string.IsNullOrWhiteSpace(id)) throw new ArgumentException("Id not set");
-            if (entity.result== null) throw new ArgumentException("Vote not set");
-            if (entity.isActive== null) throw new ArgumentException("isActive not set");
 
             //Define patch Operations
             var patchOperations = new List<PatchOperation>
