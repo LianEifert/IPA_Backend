@@ -17,6 +17,10 @@ var host = new HostBuilder()
         {
             cfg.AddProfile<AddParticipantViewModelProfile>(); 
             cfg.AddProfile<UpdateParticipantViewModelProfile>();
+            cfg.AddProfile<AddVotingViewModelProfile>();
+            cfg.AddProfile<UpdateVotingViewModelProfile>();
+            cfg.AddProfile<VotingViewModelProfile>();
+            cfg.AddProfile<ParticipantViewmodelProfile>();
 
         });
 

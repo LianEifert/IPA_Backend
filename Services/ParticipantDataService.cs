@@ -24,17 +24,14 @@ namespace ProjectEstimaterBackend.Services
         }
         public async Task<Participant> AddAsync(Participant entity)
         {
+            //Check if null
             if (string.IsNullOrWhiteSpace(entity.id)) throw new ArgumentException("Id not set");
             if (string.IsNullOrWhiteSpace(entity.name)) throw new ArgumentException("Name not set");
             if (string.IsNullOrWhiteSpace(entity.votingId)) throw new ArgumentException("VotingId not set");
             if (entity.vote == null) throw new ArgumentException("Vote not set");
 
+            //Create new Participant
             return await _ParticipantsContainer.CreateItemAsync(entity, new PartitionKey(entity.id));
-        }
-
-        public void Delete(string id)
-        {
-            throw new NotImplementedException();
         }
 
         public IList<Participant> GetAll()
@@ -53,9 +50,11 @@ namespace ProjectEstimaterBackend.Services
         }
         public async Task<Participant> UpdateAsync(Participant entity, string id)
         {
+            //Check if null
             if (string.IsNullOrWhiteSpace(id)) throw new ArgumentException("Id not set");
             if (entity.vote == null) throw new ArgumentException("Vote not set");
 
+            //Only update the vote property
             return await _ParticipantsContainer.PatchItemAsync<Participant>(
                 id: id,
                 partitionKey: new PartitionKey(id),

@@ -7,7 +7,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ProjectEstimaterBackend.Models.Data;
-using ProjectEstimaterBackend.Models.ViewModel;
+using ProjectEstimaterBackend.Models.ViewModel.Participant;
 using ProjectEstimaterBackend.Services;
 using System.Net;
 
@@ -29,6 +29,7 @@ namespace ProjectEstimaterBackend.Functions
         [Function("UpdateParticipant")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "patch", Route = "Participant/{id}")] HttpRequestData req, string id)
         {
+            //Get data from body
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var participant = JsonConvert.DeserializeObject<UpdateParticipantViewModel>(requestBody);
 

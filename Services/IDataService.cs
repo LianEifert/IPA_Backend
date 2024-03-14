@@ -12,7 +12,5 @@ namespace ProjectEstimaterBackend.Services
         IList<T> GetAll();
         T GetById(string id);
         T Update(T entity, string id);
-        void Delete(string id);
-
     }
 }

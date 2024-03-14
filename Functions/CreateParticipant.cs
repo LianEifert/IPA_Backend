@@ -5,7 +5,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ProjectEstimaterBackend.Models.Data;
-using ProjectEstimaterBackend.Models.ViewModel;
+using ProjectEstimaterBackend.Models.ViewModel.Participant;
 using ProjectEstimaterBackend.Services;
 using System.Net;
 
@@ -27,17 +27,18 @@ namespace ProjectEstimaterBackend.Functions
         [Function("CreateParticipant")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function,"post", Route = "Participant")] HttpRequestData req)
         {
+            //Get data from body
             var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var participant = JsonConvert.DeserializeObject<AddParticipantViewModel>(requestBody);
 
             if (participant == null)
             {
-                _logger.LogError("Team member data is null");
+                _logger.LogError("Participant data is null");
                 return req.CreateResponse(HttpStatusCode.BadRequest);
             }
             if (string.IsNullOrWhiteSpace(participant.votingId))
             {
-                _logger.LogError("Member is not part of a Team");
+                _logger.LogError("Participant is not part of a voting");
                 return req.CreateResponse(HttpStatusCode.BadRequest);
             }
             try

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ProjectEstimaterBackend.Models.Data;
-using ProjectEstimaterBackend.Models.ViewModel;
+using ProjectEstimaterBackend.Models.ViewModel.Participant;
 using System;
 using System.Collections.Generic;
 using System.Linq;

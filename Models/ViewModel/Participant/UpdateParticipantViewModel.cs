@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectEstimaterBackend.Models.ViewModel
+namespace ProjectEstimaterBackend.Models.ViewModel.Participant
 {
     public class UpdateParticipantViewModel
     {
