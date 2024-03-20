@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjectEstimaterBackend.Models.Data;
@@ -11,17 +12,18 @@ using ProjectEstimaterBackend.Services;
 var host = new HostBuilder()
         .ConfigureFunctionsWebApplication(builder =>
         {
+            builder.UseNewtonsoftJson();
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("IocAppOrigins", policy =>
+                options.AddPolicy("Cors", policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000")
+                    policy.AllowAnyOrigin()
                           .AllowAnyMethod()
                           .AllowAnyHeader();
                 });
             });
         })
-        .ConfigureServices((services) =>
+        .ConfigureServices(services =>
         {
             services.AddApplicationInsightsTelemetryWorkerService();
             services.ConfigureFunctionsApplicationInsights();
@@ -45,6 +47,7 @@ var host = new HostBuilder()
             services.AddSingleton<IVotingDataService, VotingDataService>();
             services.AddSingleton<IVotingParticipantService, VotingDataService>();
         })
-    .Build();
+        .ConfigureOpenApi()
+        .Build();
 
 host.Run();

@@ -2,9 +2,11 @@ using AutoMapper;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using ProjectEstimaterBackend.Models.Data;
 using ProjectEstimaterBackend.Models.ViewModel.Participant;
 using ProjectEstimaterBackend.Models.ViewModel.Voting;
 using ProjectEstimaterBackend.Services;
@@ -27,6 +29,10 @@ namespace ProjectEstimaterBackend.Functions
             _mapper = mapper;
         }
         [Function("GetVoting")]
+        [OpenApiOperation(operationId: "3", tags: new[] { "Voting" }, Summary = "Get a Voting", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiParameter("id", Description = "Id of the Voting", In = ParameterLocation.Path, Required = true, Type = typeof(string), Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "text/plain", bodyType: typeof(VotingViewModel), Description = "Returns the Voting")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "Voting/{id}")] HttpRequestData req, string id)
         {
             try

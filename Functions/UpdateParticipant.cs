@@ -2,7 +2,10 @@ using AutoMapper;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using ProjectEstimaterBackend.Models.Data;
 using ProjectEstimaterBackend.Models.ViewModel.Participant;
@@ -25,6 +28,10 @@ namespace ProjectEstimaterBackend.Functions
         }
 
         [Function("UpdateParticipant")]
+        [OpenApiOperation(operationId: "2", tags: new[] { "Participant" }, Summary = "Update a Participant", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiParameter("id", Description = "Id of the Participant", In = ParameterLocation.Path, Required = true, Type = typeof(string), Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "text/plain", bodyType: typeof(Participant), Description = "Returns the updated Participant")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "patch", Route = "Participant/{id}")] HttpRequestData req, string id)
         {
             //Get data from body

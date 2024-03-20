@@ -2,7 +2,10 @@ using AutoMapper;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using ProjectEstimaterBackend.Models.Data;
 using ProjectEstimaterBackend.Models.ViewModel.Participant;
@@ -25,6 +28,10 @@ namespace ProjectEstimaterBackend.Functions
         }
 
         [Function("CreateParticipant")]
+        [OpenApiOperation(operationId: "1", tags: new[] { "Participant" }, Summary = "Create a Participant", Visibility = OpenApiVisibilityType.Important)]
+        [OpenApiRequestBody("Request Body", typeof(AddParticipantViewModel), Description = "Request Body", Required = true, Example = typeof(AddParticipantViewModel))]
+        [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "text/plain", bodyType: typeof(Participant), Description = "Returns the created Participant")]
         public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function,"post", Route = "Participant")] HttpRequestData req)
         {
             //Get data from body
